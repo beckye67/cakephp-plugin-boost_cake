@@ -1,7 +1,7 @@
 <?php
 App::uses('FormHelper', 'View/Helper');
 App::uses('Set', 'Utility');
-
+//new comment
 class BoostCakeFormHelper extends FormHelper {
 
 	public $helpers = array('Html' => array(

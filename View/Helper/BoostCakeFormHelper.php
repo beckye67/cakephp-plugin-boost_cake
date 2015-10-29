@@ -1,7 +1,6 @@
 <?php
 App::uses('FormHelper', 'View/Helper');
 App::uses('Set', 'Utility');
-//new comment
 class BoostCakeFormHelper extends FormHelper {
 
 	public $helpers = array('Html' => array(
@@ -75,6 +74,8 @@ class BoostCakeFormHelper extends FormHelper {
 			'checkboxDiv' => 'checkbox',
 			'beforeInput' => '',
 			'afterInput' => '',
+			'help_block' => '',
+			'help_inline' => '',
 			'errorClass' => 'has-error error'
 		);
 
@@ -107,6 +108,12 @@ class BoostCakeFormHelper extends FormHelper {
 		}
 		if (isset($options['errorClass'])) {
 			unset($options['errorClass']);
+		}
+		if (isset($options['help_block'])) {
+			unset($options['help_block']);
+		}
+		if (isset($options['help_inline'])) {
+			unset($options['help_inline']);
 		}
 
 		$inputDefaults = $this->_inputDefaults;
@@ -176,12 +183,28 @@ class BoostCakeFormHelper extends FormHelper {
  */
 	protected function _getInput($args) {
 		$input = parent::_getInput($args);
+		if (!empty($this->_inputOptions['help_inline'])) {
+			$input .= ' '.$this->Html->tag(
+				'span',
+				$this->_inputOptions['help_inline'],
+				array('class' => 'help-inline')
+			);
+		}
 		if ($this->_inputType === 'checkbox' && $this->_inputOptions['checkboxDiv'] !== false) {
 			$input = $this->Html->div($this->_inputOptions['checkboxDiv'], $input);
 		}
 
 		$beforeInput = $this->_inputOptions['beforeInput'];
 		$afterInput = $this->_inputOptions['afterInput'];
+
+		$helpBlock = '';
+		if (!empty($this->_inputOptions['help_block'])) {
+			$helpBlock = $this->Html->tag(
+				'span',
+				$this->_inputOptions['help_block'],
+				array('class' => 'help-block')
+			);
+		}
 
 		$error = null;
 		$errorOptions = $this->_extractOption('error', $this->_inputOptions, null);
@@ -193,7 +216,7 @@ class BoostCakeFormHelper extends FormHelper {
 			}
 		}
 
-		$html = $beforeInput . $input . $afterInput . $error;
+		$html = $beforeInput . $input . $afterInput . $helpBlock . $error;
 
 		if ($this->_divOptions) {
 			$tag = $this->_divOptions['tag'];

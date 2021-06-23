@@ -65,7 +65,7 @@ class BoostCakeFormHelper extends FormHelper {
 			'error' => array(
 				'attributes' => array(
 					'wrap' => 'span',
-					'class' => 'help-block text-danger'
+					'class' => 'help-block text-danger has-error'
 				)
 			),
 			'wrapInput' => array(
